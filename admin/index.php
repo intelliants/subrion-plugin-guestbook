@@ -100,6 +100,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 			'author_url' => iaUtil::checkPostParam('author_url', $guestbook),
 			'body' => iaUtil::checkPostParam('body', $guestbook),
 			'status' => iaUtil::checkPostParam('status', $guestbook),
+			'avatar' => iaUtil::checkPostParam('avatar', $guestbook),
 			'date' => iaUtil::checkPostParam('date', $guestbook),
 		);
 
@@ -110,9 +111,34 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 			$error = false;
 			$messages = array();
 
+			$guestbook['avatar'] = iaSanitize::html($guestbook['avatar']);
+
 			if (utf8_is_valid($guestbook['author_name']))
 			{
 				$guestbook['author_name'] = utf8_bad_replace($guestbook['author_name']);
+			}
+
+			if (isset($_FILES['photo']) && !$guestbook['avatar'])
+			{
+				$photo = $_FILES['photo'];
+
+				if (!empty($photo['name']) && !in_array($photo['type'], array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/png')))
+				{
+					$error = true;
+					$messages[] = iaLanguage::get('unsupported_image_type');
+				}
+
+				$iaPicture = $iaCore->factory('picture');
+				$tok = 'photo_' . iaUtil::generateToken();
+
+				$imageInfo = array(
+					'image_width' => 500,
+					'image_height' => 500,
+					'resize_mode' => iaPicture::CROP
+				);
+
+				$name = $iaPicture->processImage($photo, 'guestbook/', $tok, $imageInfo);
+				$guestbook['avatar'] = $name;
 			}
 
 			if (isset($_POST['status']))

@@ -4,9 +4,9 @@
 	<summary>Allows to create guestbook section</summary>
 	<author>Intelliants LLC</author>
 	<contributor>Intelliants LLC</contributor>
-	<version>3.4.0</version>
-	<date>2015-09-01</date>
-	<compatibility>3.4</compatibility>
+	<version>4.0.0</version>
+	<date>2016-02-16</date>
+	<compatibility>4.0</compatibility>
 
 	<adminpages>
 		<page name="guestbook" url="guestbook/" menus="menu">Guestbook</page>
@@ -60,6 +60,7 @@ CREATE TABLE `{prefix}guestbook` (
 	`id` int(8) unsigned NOT NULL auto_increment,
 	`member_id` int(11) unsigned NOT NULL,
 	`author_name` varchar(150) NOT NULL,
+	`avatar` text NULL,
 	`body` text NOT NULL,
 	`email` varchar(100) NOT NULL,
 	`ip` bigint(12) NOT NULL,

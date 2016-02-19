@@ -37,6 +37,25 @@
 			</div>
 
 			<div class="row">
+				<label class="col col-lg-2 control-label" for="input-image">{lang key='avatar'}</label>
+				<div class="col col-lg-4">
+					{if isset($guestbook.avatar) && $guestbook.avatar}
+						<div class="input-group thumbnail thumbnail-single with-actions">
+							<a href="{printImage imgfile=$guestbook.avatar fullimage=true url=true}" rel="ia_lightbox">
+								{printImage imgfile=$guestbook.avatar}
+							</a>
+
+							<div class="caption">
+								<a class="btn btn-small btn-danger" href="javascript:void(0);" title="{lang key='delete'}" onclick="return intelli.admin.removeFile('{$guestbook.avatar}', this, 'guestbook', 'avatar', '{$guestbook.id}')"><i class=" i-remove-sign"></i></a>
+							</div>
+						</div>
+					{/if}
+
+					{ia_html_file name='photo' id='input-image'}
+				</div>
+			</div>
+
+			<div class="row">
 				<label class="col col-lg-2 control-label" for="input-date">{lang key='date'}</label>
 				<div class="col col-lg-4">
 					<div class="input-group">

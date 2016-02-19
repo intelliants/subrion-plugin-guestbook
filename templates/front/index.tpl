@@ -1,25 +1,36 @@
+{ia_add_media files='css: _IA_URL_plugins/guestbook/templates/front/css/style'}
+
 {if $guestbook}
-	<div class="media-items">
+	<div class="ia-items guestbook-list m-b-lg">
 		{foreach $guestbook as $message}
-			<div class="media">
-				<div class="media-body">
-					{if !$core.config.html_guestbook && $core.config.gb_auto_approval}
-						{$message.body|escape:'html'}
+			<div class="media ia-item ia-item--border">
+				{if iaCore::STATUS_INACTIVE == $message.status && ($message.sess_id == $sess_id)}<span class="label label-warning">{lang key='message_approval'}</span>{/if}
+				<div class="pull-left guestbook-list__avatar">
+					{if $message.avatar}
+						{printImage imgfile=$message.avatar width=100 height=100 class='img-circle img-responsive'}
 					{else}
-						{$message.body}
+						<img class="img-circle img-responsive" src="{$img}no-avatar.png" alt="{$message.name}">
 					{/if}
 				</div>
-				<div class="media-info">
-					<span class="fa fa-user"></span>
-					{if !$message.member_id}
-						<a href="{$message.author_url|escape:'html'}" rel="nofollow">{$message.author|escape:'html'}</a>
-					{else}
-						{ia_url type='link' item='members' data=$message text=$message.author}
-					{/if}
-
-					&nbsp; <span class="fa fa-calendar"></span> {$message.date|date_format:$core.config.date_format}
-
-					{if iaCore::STATUS_INACTIVE == $message.status && ($message.sess_id == $sess_id)}<span class="label label-warning">{lang key='message_approval'}</span>{/if}
+				<div class="media-body">
+					<div class="ia-item-body">
+						{if !$core.config.html_guestbook && $core.config.gb_auto_approval}
+						{else}
+							{$message.body}
+						{/if}
+					</div>
+				</div>
+				<div class="ia-item-panel clearfix">
+					<span class="panel-item panel-item--name pull-left">
+						{if !$message.member_id}
+							<a href="{$message.author_url|escape:'html'}" rel="nofollow">{$message.author|escape:'html'}</a>
+						{else}
+							{ia_url type='link' item='members' data=$message text=$message.author}
+						{/if}
+					</span>
+					<span class="panel-item pull-right">
+						<span class="fa fa-calendar"></span> {$message.date|date_format:$core.config.date_format}
+					</span>
 				</div>
 			</div>
 		{/foreach}
@@ -45,6 +56,15 @@
 					<div class="form-group">
 						<label for="message-author">{lang key='message_author'}:</label>
 						<input class="form-control" type="text" id="message-author" name="author" value="{if isset($smarty.post.author)}{$smarty.post.author|escape:'html'}{/if}">
+					</div>
+					<div class="form-group">
+						<label for="photo">{lang key='avatar'}</label>
+						<div class="input-group js-files">
+							<span class="input-group-btn">
+								<span class="btn btn-primary btn-file">{lang key='browse'}<input type="file" name="photo" id="photo" class="form-control"></span>
+							</span>
+							<input type="text" class="form-control js-file-name" readonly="" value="">
+						</div>
 					</div>
 					<div class="form-group">
 						<label for="author-email">{lang key='author_email'}:</label>

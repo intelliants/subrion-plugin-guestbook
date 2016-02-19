@@ -68,6 +68,13 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 				$messages[] = iaLanguage::get('error_gb_author');
 			}
 
+			$photo = isset($_FILES['photo']) ? $_FILES['photo'] : null;
+			if (!empty($photo['name']) && !in_array($photo['type'], array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/png')))
+			{
+				$error = true;
+				$messages[] = iaLanguage::get('unsupported_image_type');
+			}
+
 			// checking email
 			if (isset($_POST['email']) && $_POST['email'])
 			{
@@ -138,6 +145,17 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 
 			if (!$error)
 			{
+				$iaPicture = $iaCore->factory('picture');
+				$tok = 'photo_' . iaUtil::generateToken();
+
+				$imageInfo = array(
+					'image_width' => 500,
+					'image_height' => 500,
+					'resize_mode' => iaPicture::CROP
+				);
+
+				$name = $iaPicture->processImage($photo, 'guestbook/', $tok, $imageInfo);
+				$entry['avatar'] = $name;
 				$entry['member_id'] = iaUsers::hasIdentity() ? iaUsers::getIdentity()->id : 0;
 				$entry['sess_id'] = session_id();
 				$entry['ip'] = $iaCore->util()->getIp();
@@ -172,8 +190,8 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 			FROM `" . $iaCore->iaDb->prefix . "guestbook` g
 			LEFT JOIN `" . $iaCore->iaDb->prefix . "members` a ON (g.`member_id` = a.`id`)
 		WHERE g.`status` = 'active' "
-			. (iaUsers::hasIdentity() ? "OR g.`status` = 'approval' AND g.`member_id` = '" . iaUsers::getIdentity()->id . "'" : '')
-			. "OR g.`status` = 'approval' AND g.`sess_id` = '" . session_id() . "'
+			. (iaUsers::hasIdentity() ? "OR g.`status` = '" . iaCore::STATUS_INACTIVE . "' AND g.`member_id` = '" . iaUsers::getIdentity()->id . "'" : '')
+			. "OR g.`status` = '" . iaCore::STATUS_INACTIVE . "' AND g.`sess_id` = '" . session_id() . "'
 		ORDER BY  g.`date` DESC"
 		. ($limit ? " LIMIT $start, $limit" : '');
 
