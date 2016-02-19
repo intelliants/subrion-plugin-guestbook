@@ -118,28 +118,25 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 				$guestbook['author_name'] = utf8_bad_replace($guestbook['author_name']);
 			}
 
-			if (isset($_FILES['photo']) && !$guestbook['avatar'])
+			if (isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'])
 			{
-				$photo = $_FILES['photo'];
-
-				if (!empty($photo['name']) && !in_array($photo['type'], array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/png')))
-				{
-					$error = true;
-					$messages[] = iaLanguage::get('unsupported_image_type');
-				}
-
 				$iaPicture = $iaCore->factory('picture');
-				$tok = 'photo_' . iaUtil::generateToken();
 
-				$imageInfo = array(
+				$info = array(
 					'image_width' => 500,
 					'image_height' => 500,
+					'thumb_width' => 150,
+					'thumb_height' => 150,
 					'resize_mode' => iaPicture::CROP
 				);
 
-				$name = $iaPicture->processImage($photo, 'guestbook/', $tok, $imageInfo);
-				$guestbook['avatar'] = $name;
+				if ($image = $iaPicture->processImage($_FILES['image'], '', iaUtil::generateToken(), $info))
+				{
+					empty($guestbook['avatar']) || $iaPicture->delete($guestbook['avatar']); // already has an assigned image
+					$guestbook['avatar'] = $image;
+				}
 			}
+
 
 			if (isset($_POST['status']))
 			{

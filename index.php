@@ -68,13 +68,6 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 				$messages[] = iaLanguage::get('error_gb_author');
 			}
 
-			$photo = isset($_FILES['photo']) ? $_FILES['photo'] : null;
-			if (!empty($photo['name']) && !in_array($photo['type'], array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/png')))
-			{
-				$error = true;
-				$messages[] = iaLanguage::get('unsupported_image_type');
-			}
-
 			// checking email
 			if (isset($_POST['email']) && $_POST['email'])
 			{
@@ -145,17 +138,24 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 
 			if (!$error)
 			{
-				$iaPicture = $iaCore->factory('picture');
-				$tok = 'photo_' . iaUtil::generateToken();
+				if (isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'])
+				{
+					$iaPicture = $iaCore->factory('picture');
 
-				$imageInfo = array(
-					'image_width' => 500,
-					'image_height' => 500,
-					'resize_mode' => iaPicture::CROP
-				);
+					$info = array(
+						'image_width' => 500,
+						'image_height' => 500,
+						'thumb_width' => 150,
+						'thumb_height' => 150,
+						'resize_mode' => iaPicture::CROP
+					);
 
-				$name = $iaPicture->processImage($photo, 'guestbook/', $tok, $imageInfo);
-				$entry['avatar'] = $name;
+					if ($image = $iaPicture->processImage($_FILES['image'], '', iaUtil::generateToken(), $info))
+					{
+						$entry['avatar'] = $image;
+					}
+				}
+
 				$entry['member_id'] = iaUsers::hasIdentity() ? iaUsers::getIdentity()->id : 0;
 				$entry['sess_id'] = session_id();
 				$entry['ip'] = $iaCore->util()->getIp();
@@ -186,7 +186,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 	}
 	$start = ($page - 1) * $limit;
 
-	$sql = "SELECT g.*, IF (g.`member_id` > 0, if (a.`fullname` <> '', a.`fullname`, a.`username`), g.`author_name`) author, a.`username` username
+	$sql = "SELECT g.*, IF (g.`member_id` > 0, if (a.`fullname` != '', a.`fullname`, a.`username`), g.`author_name`) author, a.`username` username, a.`avatar` m_avatar, a.`email`
 			FROM `" . $iaCore->iaDb->prefix . "guestbook` g
 			LEFT JOIN `" . $iaCore->iaDb->prefix . "members` a ON (g.`member_id` = a.`id`)
 		WHERE g.`status` = 'active' "

@@ -51,7 +51,7 @@
 						</div>
 					{/if}
 
-					{ia_html_file name='photo' id='input-image'}
+					{ia_html_file name='image' id='input-image'}
 				</div>
 			</div>
 

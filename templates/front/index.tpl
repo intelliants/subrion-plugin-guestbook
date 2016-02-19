@@ -6,10 +6,14 @@
 			<div class="media ia-item ia-item--border">
 				{if iaCore::STATUS_INACTIVE == $message.status && ($message.sess_id == $sess_id)}<span class="label label-warning">{lang key='message_approval'}</span>{/if}
 				<div class="pull-left guestbook-list__avatar">
-					{if $message.avatar}
-						{printImage imgfile=$message.avatar width=100 height=100 class='img-circle img-responsive'}
+					{if $message.member_id}
+						{printImage imgfile=$message.m_avatar title=$message.fullname|default:$message.username gravatar=true email=$message.email gravatar_width=200 width=100 height=100 class='img-circle img-responsive'}
 					{else}
-						<img class="img-circle img-responsive" src="{$img}no-avatar.png" alt="{$message.name}">
+						{if $message.avatar}
+							{printImage imgfile=$message.avatar width=100 height=100 class='img-circle img-responsive'}
+						{else}
+							<img class="img-circle img-responsive" src="{$img}no-avatar.png" alt="{$message.name}">
+						{/if}
 					{/if}
 				</div>
 				<div class="media-body">
@@ -42,7 +46,7 @@
 {navigation aTotal=$total_messages aTemplate=$aTemplate aItemsPerPage=$core.config.gb_messages_per_page aNumPageItems=5 aTruncateParam="guestbook/%page%"}
 
 {if !$core.config.gb_account_submissions_only || $member}
-	<form action="" method="post" id="guestbook" class="ia-form ia-form--bordered">
+	<form action="" method="post" enctype="multipart/form-data" id="guestbook" class="ia-form ia-form--bordered">
 		{preventCsrf}
 		<div class="fieldset">
 			<div class="fieldset__header">{lang key='add_message'}</div>
@@ -61,9 +65,11 @@
 						<label for="photo">{lang key='avatar'}</label>
 						<div class="input-group js-files">
 							<span class="input-group-btn">
-								<span class="btn btn-primary btn-file">{lang key='browse'}<input type="file" name="photo" id="photo" class="form-control"></span>
+								<span class="btn btn-primary btn-file">
+									{lang key='browse'} <input type="file" name="image" id="field_image">
+								</span>
 							</span>
-							<input type="text" class="form-control js-file-name" readonly="" value="">
+							<input type="text" class="form-control js-file-name" readonly value="">
 						</div>
 					</div>
 					<div class="form-group">
