@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<plugin name="guestbook">
+<module type="plugin" name="guestbook">
 	<title>Guestbook</title>
 	<summary>Allows to create guestbook section</summary>
 	<author>Intelliants LLC</author>
 	<contributor>Intelliants LLC</contributor>
-	<version>4.0.0</version>
-	<date>2016-02-22</date>
-	<compatibility>4.0</compatibility>
+	<version>4.1.0</version>
+	<date>2017-04-04</date>
+	<compatibility>4.1</compatibility>
 
 	<adminpages>
 		<page name="guestbook" url="guestbook/" menus="menu">Guestbook</page>
@@ -81,4 +81,4 @@ DROP TABLE IF EXISTS `{prefix}guestbook`;
 			]]>
 		</sql>
 	</uninstall>
-</plugin>
+</module>
