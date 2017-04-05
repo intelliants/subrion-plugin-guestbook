@@ -18,7 +18,7 @@
                 </div>
                 <div class="media-body">
                     <div class="ia-item-body">
-                        {if !$core.config.html_guestbook && $core.config.gb_auto_approval}
+                        {if !$core.config.gb_allow_wysiwyg && $core.config.gb_auto_approval}
                         {else}
                             {$message.body}
                         {/if}
@@ -87,7 +87,7 @@
                         <label for="guestbook_form">{lang key='msg'}:</label>
                     {/if}
 
-                    {if $core.config.html_guestbook}
+                    {if $core.config.gb_allow_wysiwyg}
                         {ia_wysiwyg value=$body name=message}
                     {else}
                         <textarea name="message" class="form-control" rows="8" id="guestbook_form">{$body}</textarea>

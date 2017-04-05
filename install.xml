@@ -1,84 +1,80 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <module type="plugin" name="guestbook">
-	<title>Guestbook</title>
-	<summary>Allows to create guestbook section</summary>
-	<author>Intelliants LLC</author>
-	<contributor>Intelliants LLC</contributor>
-	<version>4.1.0</version>
-	<date>2017-04-04</date>
-	<compatibility>4.1</compatibility>
+    <title>Guestbook</title>
+    <summary>Allows to create guestbook section</summary>
+    <author>Intelliants LLC</author>
+    <contributor>Intelliants LLC</contributor>
+    <version>4.1.0</version>
+    <date>2017-04-04</date>
+    <compatibility>4.1</compatibility>
 
-	<adminpages>
-		<page name="guestbook" url="guestbook/" menus="menu">Guestbook</page>
-	</adminpages>
+    <adminpages>
+        <page name="guestbook" url="guestbook/" menus="menu">Guestbook</page>
+    </adminpages>
 
-	<pages>
-		<page name="guestbook" url="guestbook/" menus="main">Guestbook</page>
-	</pages>
+    <pages>
+        <page name="guestbook" url="guestbook/" menus="main">Guestbook</page>
+    </pages>
 
-	<actions>
-		<action name="guestbook_view" url="guestbook/" icon="list" pages="guestbook">List</action>
-	</actions>
+    <configgroup name="guestbook">Guestbook</configgroup>
+    <config group="guestbook" name="guestbook_plugin" type="divider" value="Guestbook">General</config>
+    <config group="guestbook" name="gb_account_submissions_only" type="radio" description="Allow submissions for members only" values="0,1">0</config>
+    <config group="guestbook" name="gb_auto_approval" type="radio" description="Messages auto approval" values="0,1">0</config>
+    <config group="guestbook" name="gb_allow_wysiwyg" type="radio" description="Allow WYSIWYG" values="1,0" value="1" private="0">0</config>
+    <config group="guestbook" name="gb_min_chars" type="text" description="Min number of chars for messages">20</config>
+    <config group="guestbook" name="gb_max_chars" type="text" description="Max number of chars for listing comment" private="0">1000</config>
+    <config group="guestbook" name="gb_messages_per_page" type="text" description="Number of messages per page">10</config>
 
-	<configgroup name="guestbook">Guestbook</configgroup>
-	<config group="guestbook" name="guestbook_plugin" type="divider" value="Guestbook">General</config>
-	<config group="guestbook" name="gb_account_submissions_only" type="radio" description="Allow submissions for members only" values="0,1">0</config>
-	<config group="guestbook" name="gb_auto_approval" type="radio" description="Messages auto approval" values="0,1">0</config>
-	<config group="guestbook" name="html_guestbook" type="radio" description="Allow WYSIWYG" values="1,0" value="1" private="0">0</config>
-	<config group="guestbook" name="gb_min_chars" type="text" description="Min number of chars for messages">20</config>
-	<config group="guestbook" name="gb_max_chars" type="text" description="Max number of chars for listing comment" private="0">1000</config>
-	<config group="guestbook" name="gb_messages_per_page" type="text" description="Number of messages per page">10</config>
+    <phrases>
+        <phrase category="common" key="guestbook">Guestbook</phrase>
+        <phrase category="common" key="guestbook_message">Guestbook message</phrase>
 
-	<phrases>
-		<phrase category="common" key="guestbook">Guestbook</phrase>
-		<phrase category="common" key="guestbook_message">Guestbook message</phrase>
+        <phrase category="common" key="author_email">Author's Email</phrase>
+        <phrase category="common" key="author_url">Author's Site</phrase>
+        <phrase category="common" key="edit_message">Edit Message</phrase>
+        <phrase category="common" key="message">Message</phrase>
+        <phrase category="common" key="message_author">Author's Name</phrase>
 
-		<phrase category="common" key="author_email">Author's Email</phrase>
-		<phrase category="common" key="author_url">Author's Site</phrase>
-		<phrase category="common" key="edit_message">Edit Message</phrase>
-		<phrase category="common" key="message">Message</phrase>
-		<phrase category="common" key="message_author">Author's Name</phrase>
+        <phrase category="frontend" key="no_guestbook_messages">No messages posted in the guestbook.</phrase>
+        <phrase category="frontend" key="add_message">You can leave your message here</phrase>
+        <phrase category="frontend" key="leave_message">Leave Message</phrase>
+        <phrase category="frontend" key="message_added">Your message has been added.</phrase>
+        <phrase category="frontend" key="message_approval">Waiting for approval.</phrase>
+        <phrase category="frontend" key="error_url">Site url is incorrect.</phrase>
+        <phrase category="frontend" key="error_gb">Make sure you've entered a valid message.</phrase>
+        <phrase category="frontend" key="error_gb_author">Make sure you've entered a valid name.</phrase>
+        <phrase category="frontend" key="error_gb_email">Make sure you've entered a valid email.</phrase>
+        <phrase category="frontend" key="error_max_gb">The length of the message should be less than :length symbols.</phrase>
+        <phrase category="frontend" key="error_min_gb">The length of the message should be more than :length symbols.</phrase>
+        <phrase category="frontend" key="error_gb_logged">You should be logged in in order to read guestbook messages.</phrase>
+    </phrases>
 
-		<phrase category="frontend" key="no_guestbook_messages">No messages posted in the guestbook.</phrase>
-		<phrase category="frontend" key="add_message">You can leave your message here</phrase>
-		<phrase category="frontend" key="leave_message">Leave Message</phrase>
-		<phrase category="frontend" key="message_added">Your message has been added.</phrase>
-		<phrase category="frontend" key="message_approval">Waiting for approval.</phrase>
-		<phrase category="frontend" key="error_url">Site url is incorrect.</phrase>
-		<phrase category="frontend" key="error_gb">Make sure you've entered a valid message.</phrase>
-		<phrase category="frontend" key="error_gb_author">Make sure you've entered a valid name.</phrase>
-		<phrase category="frontend" key="error_gb_email">Make sure you've entered a valid email.</phrase>
-		<phrase category="frontend" key="error_max_gb">The length of the message should be less than :length symbols.</phrase>
-		<phrase category="frontend" key="error_min_gb">The length of the message should be more than :length symbols.</phrase>
-		<phrase category="frontend" key="error_gb_logged">You should be logged in in order to read guestbook messages.</phrase>
-	</phrases>
-
-	<install>
-		<sql>
-			<![CDATA[
+    <install>
+        <sql>
+            <![CDATA[
 CREATE TABLE `{prefix}guestbook` (
-	`id` int(8) unsigned NOT NULL auto_increment,
-	`member_id` int(11) unsigned NOT NULL,
-	`author_name` varchar(150) NOT NULL,
-	`avatar` text NULL,
-	`body` text NOT NULL,
-	`email` varchar(100) NOT NULL,
-	`ip` bigint(12) NOT NULL,
-	`date` datetime NOT NULL,
-	`status` enum('inactive', 'active') NOT NULL default 'inactive',
-	`sess_id` varchar(150) NOT NULL,
-	`author_url` varchar(150),
-	PRIMARY KEY (`id`)
+    `id` int(8) unsigned NOT NULL auto_increment,
+    `member_id` int(11) unsigned NOT NULL,
+    `author_name` varchar(150) NOT NULL,
+    `avatar` text NULL,
+    `body` text NOT NULL,
+    `email` varchar(100) NOT NULL,
+    `ip` bigint(12) NOT NULL,
+    `date` datetime NOT NULL,
+    `status` enum('inactive', 'active') NOT NULL default 'inactive',
+    `sess_id` varchar(150) NOT NULL,
+    `author_url` varchar(150),
+    PRIMARY KEY (`id`)
 ) {mysql_version};
-			]]>
-		</sql>
-	</install>
+            ]]>
+        </sql>
+    </install>
 
-	<uninstall>
-		<sql>
-			<![CDATA[
+    <uninstall>
+        <sql>
+            <![CDATA[
 DROP TABLE IF EXISTS `{prefix}guestbook`;
-			]]>
-		</sql>
-	</uninstall>
+            ]]>
+        </sql>
+    </uninstall>
 </module>
