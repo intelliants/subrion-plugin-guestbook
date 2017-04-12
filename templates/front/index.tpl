@@ -7,10 +7,10 @@
                 {if iaCore::STATUS_INACTIVE == $message.status && ($message.sess_id == $sess_id)}<span class="label label-warning">{lang key='message_approval'}</span>{/if}
                 <div class="pull-left guestbook-list__avatar">
                     {if $message.member_id}
-                        {printImage imgfile=$message.m_avatar title=$message.fullname|default:$message.username gravatar=true email=$message.email gravatar_width=200 width=100 height=100 class='img-circle img-responsive'}
+                        {ia_image file=$message.m_avatar|unserialize title=$message.fullname|default:$message.username gravatar=true email=$message.email gravatar_width=100 width=100 class='img-responsive'}
                     {else}
                         {if $message.avatar}
-                            {printImage imgfile=$message.avatar width=100 height=100 class='img-circle img-responsive'}
+                            {ia_image file=$message.avatar|unserialize width=100 class='img-responsive'}
                         {else}
                             <img class="img-circle img-responsive" src="{$img}no-avatar.png" alt="{$message.name}">
                         {/if}
