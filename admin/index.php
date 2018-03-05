@@ -40,7 +40,7 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 
         $this->setHelper($this->_iaCore->factoryModule($this->getModuleName(), iaCore::ADMIN));
     }
- 
+
     protected function _indexPage(&$iaView)
     {
         $iaView->grid('_IA_URL_modules/' . $this->getModuleName() . '/js/admin/index');
