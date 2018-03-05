@@ -137,16 +137,21 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
                 $entry['ip'] = $iaCore->util()->getIp();
                 $entry['status'] = $iaCore->get('gb_auto_approval') ? iaCore::STATUS_ACTIVE : iaCore::STATUS_INACTIVE;
 
-                $id = $iaDb->insert($entry, array('date' => iaDb::FUNCTION_NOW));
-                unset($entry);
+                $check_post =  "SELECT * FROM `". $iaCore->iaDb->prefix."guestbook` WHERE `author_name` = '".$entry['author_name']."'  AND `body` = '".$entry['body']."' ";
+                $check_post_result = $iaDb->getAll($check_post);
 
-                if ($id) {
-                    $iaCore->factory('log')->write(iaLog::ACTION_CREATE, array(
-                        'item' => '',
-                        'name' => iaLanguage::get('guestbook_message'),
-                        'id' => $id,
-                        'path' => 'guestbook'
-                    ));
+                if(empty($check_post_result)){
+                    $id = $iaDb->insert($entry, array('date' => iaDb::FUNCTION_NOW));
+                    unset($entry);
+
+                    if ($id) {
+                        $iaCore->factory('log')->write(iaLog::ACTION_CREATE, array(
+                            'item' => '',
+                            'name' => iaLanguage::get('guestbook_message'),
+                            'id' => $id,
+                            'path' => 'guestbook'
+                        ));
+                    }
                 }
 
                 $messages[] = iaLanguage::get('message_added') . (!$iaCore->get('gb_auto_approval') ? ' ' . iaLanguage::get('message_approval') : '');

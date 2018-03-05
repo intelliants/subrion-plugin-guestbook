@@ -1,5 +1,4 @@
 {ia_add_media files='css: _IA_URL_modules/guestbook/templates/front/css/style'}
-
 {if $guestbook}
     <div class="ia-items guestbook-list m-b-lg">
         {foreach $guestbook as $message}
@@ -12,7 +11,7 @@
                         {if $message.avatar}
                             {ia_image file=$message.avatar|unserialize width=100 class='img-responsive'}
                         {else}
-                            <img class="img-circle img-responsive" src="{$img}no-avatar.png" alt="{$message.name}">
+                            <img class="img-circle img-responsive" src="{$img}no-avatar.png" alt="{$message.author_name}">
                         {/if}
                     {/if}
                 </div>

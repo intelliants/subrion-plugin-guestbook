@@ -4,9 +4,9 @@
     <summary>Allows to create guestbook section</summary>
     <author>Intelliants LLC</author>
     <contributor>Intelliants LLC</contributor>
-    <version>4.1.0</version>
-    <date>2017-04-04</date>
-    <compatibility>4.1</compatibility>
+    <version>4.2</version>
+    <date>2018-03-05</date>
+    <compatibility>4.2</compatibility>
 
     <adminpages>
         <page name="guestbook" url="guestbook/" menus="menu">Guestbook</page>
